@@ -1,8 +1,8 @@
 <?php
 // https://whmcs.community/topic/296515-hook-to-show-recent-imported-ticket-failures-on-support-tickets-page/
-// version 1.4
+// version 1.5
 
-use Illuminate\Database\Capsule\Manager as Capsule; 
+use WHMCS\Database\Capsule;
 
 add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 	
@@ -31,10 +31,17 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 		else if ($date_interval == 1) $date_interval = 'Yesterday';
 		else $date_interval .= ' days ago';
 
+		$abs_admin_url = $GLOBALS['CONFIG']['SystemURL'] . '/' . $GLOBALS['customadminpath'];
+		
 		$output .= "
 		<tr>
-			<td>$date_interval</td><td>$name</td><td><a href='#' onclick=\"window.open('/" . $GLOBALS['customadminpath'] . "/systemmailimportlog.php?display=true&id={$msg->id}','','width=650,height=400,scrollbars=yes');return false\">{$msg->subject}</a></td><td>{$msg->status}</td></tr>";
-		
+			<td>$date_interval</td><td>$name</td><td>{$msg->subject}</td><td>{$msg->status}</td>
+			<td>
+				<a href='$abs_admin_url/logs/system-mail-import-log/record/{$msg->id}' class='open-modal' data-modal-title='Viewing Email Message Log Entry'>
+					<button class='btn btn-default'>View</button>
+				</a>
+			</td>
+		</tr>";
 	}
 	
 	return  "$output</table><br /></div>
