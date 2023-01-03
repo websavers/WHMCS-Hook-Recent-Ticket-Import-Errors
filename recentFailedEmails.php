@@ -7,9 +7,9 @@ use WHMCS\Database\Capsule;
 
 add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 	
-	$output = "<div id='recently-blocked'><h2>Recently Blocked Messages   <small><i class='far fa-eye'></i> <a href='systemmailimportlog.php' target='_blank'>SEE ALL</a></small></h2>
+	$output = "<div id='recently-blocked'><h2>Recently Blocked Messages &nbsp; <small><i class='far fa-eye'></i> <a href='systemmailimportlog.php' target='_blank'>SEE ALL</a></small></h2>
 		<table id='sortabletbl1' class='datatable' style='width:100%'>
-		<tr><th>Date</th><th>Name/Email</th><th>Subject (click to view)</th><th>Status</th></tr>";
+		<tr><th>Date</th><th>Name/Email</th><th>Subject (click to view)</th><th>Reason</th><th></th></tr>";
 	
 	foreach (Capsule::table('tblticketmaillog')->where('status', 'not like', '%successful%')->where('email', 'not like', 'mailer-daemon%')->orderBy('id', 'desc')->limit(10)->get() as $msg){
 
