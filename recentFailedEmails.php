@@ -1,4 +1,5 @@
 <?php
+// Show recently imported ticket failures on Support Tickets page
 // https://whmcs.community/topic/296515-hook-to-show-recent-imported-ticket-failures-on-support-tickets-page/
 // version 1.5
 
