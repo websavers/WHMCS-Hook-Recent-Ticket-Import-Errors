@@ -1,13 +1,16 @@
 <?php
 // Show recently imported ticket failures on Support Tickets page
 // https://whmcs.community/topic/296515-hook-to-show-recent-imported-ticket-failures-on-support-tickets-page/
-// version 1.6
+// version 1.7
 
 use WHMCS\Database\Capsule;
 
 add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
+
+	if (!empty($_POST)) return; //don't show when data is submit to the page
 	
-	$output = "<div id='recently-blocked'><h2>Recently Blocked Messages &nbsp; <small><i class='far fa-eye'></i> <a href='systemmailimportlog.php' target='_blank'>SEE ALL</a></small></h2>
+	$output = "<!-- HOOK: RECENT TICKET IMPORT FAILURES -->
+		<div id='recently-blocked' class='d-none'><h2>Recently Blocked Messages &nbsp; <small><i class='far fa-eye'></i> <a href='systemmailimportlog.php' target='_blank'>SEE ALL</a></small></h2>
 		<table id='sortabletbl1' class='datatable' style='width:100%'>
 		<tr><th>Date</th><th>Name/Email</th><th>Subject</th><th>Reason</th><th></th></tr>";
 	
@@ -48,8 +51,8 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 	return  "$output</table><br /></div>
 	<script>
         jQuery(document).ready(function($){ /* Move to bottom of page */
-        $('#recently-blocked').appendTo('#contentarea > div:first-child');
+        $('#recently-blocked').appendTo('#contentarea > div:first-child').removeClass('d-none');
         });
-    </script>";
+    </script><!-- END HOOK: RECENT TICKET IMPORT FAILURES -->";
 	
 });
