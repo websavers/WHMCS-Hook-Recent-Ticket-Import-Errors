@@ -1,13 +1,13 @@
 <?php
 // Show recently imported ticket failures on Support Tickets page
 // https://whmcs.community/topic/296515-hook-to-show-recent-imported-ticket-failures-on-support-tickets-page/
-// version 1.7
+// version 1.8
 
 use WHMCS\Database\Capsule;
 
 add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 
-	if (!empty($_POST)) return; //don't show when data is submit to the page
+	if (!empty($_POST) || !empty($_GET)) return; //don't show when data is submit to the page
 	
 	$output = "<!-- HOOK: RECENT TICKET IMPORT FAILURES -->
 		<div id='recently-blocked' class='d-none'><h2>Recently Blocked Messages &nbsp; <small><i class='far fa-eye'></i> <a href='systemmailimportlog.php' target='_blank'>SEE ALL</a></small></h2>
