@@ -14,7 +14,7 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 		<table id='sortabletbl1' class='datatable' style='width:100%'>
 		<tr><th>Date</th><th>Name/Email</th><th>Subject</th><th>Reason</th><th></th></tr>";
 	
-	foreach (Capsule::table('tblticketmaillog')->where('status', 'not like', '%successful%')->where('email', 'not like', 'mailer-daemon%')->orderBy('id', 'desc')->limit(10)->get() as $msg){
+	foreach (Capsule::table('tblticketmaillog')->where('status', 'not like', '%successful%')->where('email', 'not like', 'mailer-daemon%')->orderBy('id', 'desc')->limit(15)->get() as $msg){
 
 		/* Name */
 		if ($msg->name === $msg->email) $name = $msg->name;
@@ -27,7 +27,7 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 		$date_interval = abs($interval->format('%R%a'));
 		
 		if ($date_interval == 0 && $interval->h < date('H')) {
-		    $date_interval = 'Today';
+		    $date_interval = $msg_date->format('g:ia');
 		}
 		else if ($date_interval == 0 && $interval->h >= date('H')){
 		    $date_interval = 'Yesterday';
