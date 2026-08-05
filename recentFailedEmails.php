@@ -16,10 +16,13 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 	
 	foreach (Capsule::table('tblticketmaillog')->where('status', 'not like', '%successful%')->where('email', 'not like', 'mailer-daemon%')->orderBy('id', 'desc')->limit(15)->get() as $msg){
 
-		/* Name */
-		if ($msg->name === $msg->email) $name = $msg->name;
-		else $name = "{$msg->name} <{$msg->email}>";
+		/* Vars */
+		if ($msg->name === $msg->email) $name = htmlspecialchars($msg->name);
+		else $name = htmlspecialchars($msg->name) . " <" . htmlspecialchars($msg->email) . ">";
 		
+		$subject = htmlspecialchars($msg->subject);
+		$status = htmlspecialchars($msg->status);
+
 		/* Date */
 		$today = new DateTime();
 		$msg_date = new DateTime($msg->date);
@@ -39,7 +42,7 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 		
 		$output .= "
 		<tr>
-			<td>$date_interval</td><td>$name</td><td>{$msg->subject}</td><td>{$msg->status}</td>
+			<td>$date_interval</td><td>$name</td><td>$subject</td><td>$status</td>
 			<td>
 				<a href='$abs_admin_url/logs/system-mail-import-log/record/{$msg->id}' class='open-modal' data-modal-title='Viewing Email Message Log Entry'>
 					<button class='btn btn-default'>View</button>
